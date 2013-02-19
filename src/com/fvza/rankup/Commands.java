@@ -6,6 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.fvza.rankup.util.Config;
+import com.fvza.rankup.util.Language;
+
 public class Commands implements CommandExecutor {
 	
 	Ranking Ranking = new Ranking(); 
@@ -42,7 +45,7 @@ public class Commands implements CommandExecutor {
 				} else if ( args[0].equalsIgnoreCase("r") || args[0].equalsIgnoreCase("reload") ){
 					
 					if( player.hasPermission("rankup.reload" )){
-						Config.load();
+						Config.loadConfig();
 						Language.send( player ,"&7Rankup has been reloaded.");
 					} else {
 						Language.send( player ,"&cYou do not have permission for this command.");

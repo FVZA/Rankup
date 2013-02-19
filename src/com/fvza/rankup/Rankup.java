@@ -9,6 +9,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.fvza.rankup.util.Config;
+
 public class Rankup extends JavaPlugin{
 	
 	public static Permission perms = null;
@@ -44,7 +46,7 @@ public class Rankup extends JavaPlugin{
 		setupPermissions();
 		setupEconomy();
 		
-		Config.load();
+		Config.loadConfig();
 		
 		getServer().getPluginManager().registerEvents(new ListenerSign(), this);
 		

@@ -4,6 +4,9 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.entity.Player;
 
+import com.fvza.rankup.util.Config;
+import com.fvza.rankup.util.Language;
+
 public class Ranking {
 	
 	public boolean pay(Player player, Double amount){

@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.fvza.rankup.util.Language;
+
 public class ListenerSign implements Listener {
 
 	@EventHandler

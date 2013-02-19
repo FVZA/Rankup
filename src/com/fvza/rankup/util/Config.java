@@ -1,4 +1,4 @@
-package com.fvza.rankup;
+package com.fvza.rankup.util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,19 +12,25 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import com.fvza.rankup.Rankup;
+
 public class Config {
 	
 	private static YamlConfiguration config;
+	private static YamlConfiguration data;
+	
 	private static File configFile;
+	private static File dataFile;
 	
 	public static boolean override;
 	public static String[] groupNames; 
 	public static Double[] groupPrices; 
-	public static int[] groupTimes; // SOON TO BE IMPLEMENTED. 
+	public static int[] groupTimes;
 	
 	public static ArrayList<String> getAvailableGroups(){
 		return new ArrayList<String>( Arrays.asList( groupNames ) );
 	}
+	
 	
 	public static ArrayList<String> getCurrentGroups( Player player ){
 		return new ArrayList<String>( Arrays.asList( Rankup.perms.getPlayerGroups( player ) ) );
@@ -116,7 +122,7 @@ public class Config {
 		
 	}
 	
-	public void load(){
+	public void loadConfig(){
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Rankup");
 		
 		configFile = new File(plugin.getDataFolder(), "config.yml");
@@ -171,6 +177,25 @@ public class Config {
 		override = config.getBoolean("settings.override-groups");
 
     }
+	
+	public void loadData(){
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Rankup");
+		
+		dataFile = new File(plugin.getDataFolder(), "data.yml");
+		
+		if(!dataFile.exists()){
+			
+		} 
+		
+		data = new YamlConfiguration();
+		
+		try {
+			data.load( dataFile );
+		} catch (Exception ex) {
+			throw new IllegalArgumentException("Unable to load the data file.");
+		}
+		
+	}
 	
 
 }
