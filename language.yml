@@ -1,0 +1,8 @@
+rankup-success-player: 'You have ranked up to %RANK%.'
+rankup-success-broadcast: '%PLAYER% has ranked up to %RANK%.'
+
+rankup-failed-money: 'You need %COST% to rank up to %RANK%'
+rankup-failed-next-group-not-allowed: 'You are not allowed to rank up.'
+rankup-failed-no-group-to-rank-up-to: 'There is no group you can rank up to.'
+
+do-not-edit-this: 2

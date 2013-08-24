@@ -11,6 +11,8 @@ public class Ranking {
 	
 	public boolean pay(Player player, Double amount){
 		
+		String newRank = Config.getRankToGroup( player );
+		
 		if ( Rankup.econ == null ){
 			
 			Language.send( player, "&cNo valid economy plugin found. Tell an administrator.");
@@ -23,7 +25,7 @@ public class Ranking {
 		if(r.transactionSuccess()){
 			return true; 
 		} else {
-			player.sendMessage(String.format("%s", r.errorMessage));
+			Language.send( player, "&cYou need &a" + amount + " &cto rank up to &b" + newRank + "."); 
 			return false; 
 		}
 	}
@@ -47,6 +49,7 @@ public class Ranking {
 				return false; 
 			}
 			
+			
 			boolean paid = pay( player, rankPrice );  
 			
 			if( paid ){
@@ -54,18 +57,19 @@ public class Ranking {
 				if( Config.getOverride() ){
 
 					for(String b : Rankup.perms.getPlayerGroups( player )){
-						Rankup.perms.playerRemoveGroup(player, b);
+						
+						if(b != newRank){
+							
+							Rankup.perms.playerRemoveGroup(player, b);
+							
+						}
 					}
 						
 				} else {
 					Rankup.perms.playerRemoveGroup(player, Config.getCurrentRankableGroup( player ));
-					System.out.println(Config.getAvailableGroups());
 				}
-        	
-				Rankup.perms.playerAddGroup(player, newRank);
 			
-				
-				Language.send( player, "&3You have successfully ranked up to &a" + newRank + "." );
+				Rankup.perms.playerAddGroup(player, newRank);
 				Language.broadcast( "&b" + player.getDisplayName() + "&3 has ranked up to &b" + newRank + "." );
 				
 				return true;

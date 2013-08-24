@@ -5,16 +5,23 @@ import java.io.IOException;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 
+
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.fvza.rankup.bukkit.Commands;
 import com.fvza.rankup.util.Config;
+import com.fvza.rankup.util.FileManager;
 
 public class Rankup extends JavaPlugin{
 	
 	public static Permission perms = null;
 	public static Economy econ = null;
+	
+	public static Plugin plugin;
 	
 	private boolean setupPermissions() {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
@@ -34,21 +41,24 @@ public class Rankup extends JavaPlugin{
         return econ != null; 
     }
 	
+	
 	@Override
     public void onEnable() {
 		
-		Config Config = new Config();
+		FileManager FileManager = new FileManager();
 		
 		PluginDescriptionFile pdfFile = this.getDescription();	
 		
 		getCommand("rankup").setExecutor(new Commands());
 		
+		//getServer().getPluginManager().registerEvents(new ListenerSign(), this);
+		
+		plugin = this; 
+		
 		setupPermissions();
 		setupEconomy();
 		
-		Config.loadConfig();
-		
-		getServer().getPluginManager().registerEvents(new ListenerSign(), this);
+		FileManager.loadFiles(); 
 		
 		try {
 		    Metrics metrics = new Metrics(this);
@@ -58,6 +68,17 @@ public class Rankup extends JavaPlugin{
 		}
 		 
 		getLogger().info( pdfFile.getName() + " " + pdfFile.getVersion() + " is now enabled." );
+	}
+	
+	public static boolean getGroupManager(){
+		final PluginManager pluginManager = plugin.getServer().getPluginManager();
+		final Plugin GMplugin = pluginManager.getPlugin("GroupManager");
+		
+		if (GMplugin != null && GMplugin.isEnabled()){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	@Override

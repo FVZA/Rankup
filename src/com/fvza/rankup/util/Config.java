@@ -1,26 +1,17 @@
 package com.fvza.rankup.util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import com.fvza.rankup.Rankup;
 
 public class Config {
-	
-	private static YamlConfiguration config;
-	private static YamlConfiguration data;
-	
-	private static File configFile;
-	private static File dataFile;
 	
 	public static boolean override;
 	public static String[] groupNames; 
@@ -65,7 +56,7 @@ public class Config {
 			if( count == availableGroups.size() ){
 				Language.send( player, "&cYou are not in a group that can rank up." );
 			} else if( currentGroups.contains(s) ){	
-				return availableGroups.get( count ) ; 	
+				return availableGroups.get( count + 1 ) ; 	
 			}
 			 
 			count++;
@@ -74,6 +65,8 @@ public class Config {
 		return null; 
 		
 	}
+	
+	
 	
 	public static String getRankToGroup( Player player ){
 		ArrayList<String> availableGroups = getAvailableGroups();
@@ -91,15 +84,18 @@ public class Config {
 		
 		int count = 0; 
 		
-		for( String s : availableGroups ){
-			
-			if( count == availableGroups.size()-1 ){
+		
+		for( String s : currentGroups ){
+			int index = availableGroups.indexOf(s)+1;
+			if( count == availableGroups.size()-1 || !availableGroups.contains(s) || index == availableGroups.size()){
 				Language.send( player, "&cYou are not in a group that can rank up." );
-			} else if( currentGroups.contains(s) && availableGroups.get(count + 1) != null ){		
-				return availableGroups.get( count + 1 ) ; 	
+				return null; 
+			} else if ( availableGroups.get(index) != null){
+				if( !currentGroups.contains(availableGroups.get(index)) ) {
+					return availableGroups.get(index);
+				}
 			}
-			 
-			count++;
+			count ++;
 		}		
 		
 		return null; 
@@ -122,22 +118,13 @@ public class Config {
 		
 	}
 	
-	public void loadConfig(){
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Rankup");
+	public void loadConfig( YamlConfiguration config ){	
 		
-		configFile = new File(plugin.getDataFolder(), "config.yml");
-		
-		if(!configFile.exists()){
-			plugin.saveDefaultConfig();
-		} 
-		
-		config = new YamlConfiguration();
-		
-		try {
-			config.load(configFile);
-		} catch (Exception ex) {
-			throw new IllegalArgumentException("Your configuration file is invalid. Make sure you are not using the tab key, as YML does not understand it.");
+		if( config.getInt ("settings.do-not-edit" ) != 2){
+			//updateConfig( config );
 		}
+		
+		// TODO: Add time ranking
 		
 		Map<String, Object> allGroups = new HashMap<String, Object>();
 		
@@ -159,15 +146,15 @@ public class Config {
 					try {
 						groupCount++;
 						groupName = groupItr.next();
+						
+						Double number = new Double(config.getDouble("ranks." + groupName));
+						
+						groupNames[groupCount-1] = groupName;
+						groupPrices[groupCount-1] = number;
 					}
 					catch (Exception ex) {
 						throw new IllegalArgumentException("Invalid group name found, check your configuration file.");
 					}
-					
-					Double number = new Double(config.getDouble("ranks." + groupName));
-					
-					groupNames[groupCount-1] = groupName;
-					groupPrices[groupCount-1] = number;
 			
 				}
 			
@@ -178,24 +165,7 @@ public class Config {
 
     }
 	
-	public void loadData(){
-		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Rankup");
-		
-		dataFile = new File(plugin.getDataFolder(), "data.yml");
-		
-		if(!dataFile.exists()){
-			
-		} 
-		
-		data = new YamlConfiguration();
-		
-		try {
-			data.load( dataFile );
-		} catch (Exception ex) {
-			throw new IllegalArgumentException("Unable to load the data file.");
-		}
-		
+	public void updateConfig( YamlConfiguration config ){
+		// TODO: update config to new version
 	}
-	
-
 }

@@ -1,8 +1,8 @@
 name: Rankup
 author: FVZA
-version: 1.05
+version: 1.1.4
 
-description: Have players pay to rank up to a new rank. 
+description: Allows players to pay for new ranks.
 website: http://dev.bukkit.org/server-mods/rank-up/
 
 main: com.fvza.rankup.Rankup
