@@ -16,6 +16,12 @@ import com.fvza.rankup.Rankup;
 
 public class Config {
 	
+	private static YamlConfiguration config;
+	private static YamlConfiguration data;
+	
+	private static File configFile;
+	private static File dataFile;
+	
 	public static boolean override;
 	public static String[] groupNames; 
 	public static Double[] groupPrices; 
@@ -116,13 +122,22 @@ public class Config {
 		
 	}
 	
-	public void loadConfig( YamlConfiguration config ){	
+	public void loadConfig(){
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Rankup");
 		
-		if( config.getInt ("settings.do-not-edit" ) != 2){
-			updateConfig( config );
+		configFile = new File(plugin.getDataFolder(), "config.yml");
+		
+		if(!configFile.exists()){
+			plugin.saveDefaultConfig();
+		} 
+		
+		config = new YamlConfiguration();
+		
+		try {
+			config.load(configFile);
+		} catch (Exception ex) {
+			throw new IllegalArgumentException("Your configuration file is invalid. Make sure you are not using the tab key, as YML does not understand it.");
 		}
-		
-		// TODO: Add time ranking
 		
 		Map<String, Object> allGroups = new HashMap<String, Object>();
 		
@@ -163,7 +178,24 @@ public class Config {
 
     }
 	
-	public void updateConfig( YamlConfiguration config ){
-		// TODO: update config to new version
+	public void loadData(){
+		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Rankup");
+		
+		dataFile = new File(plugin.getDataFolder(), "data.yml");
+		
+		if(!dataFile.exists()){
+			
+		} 
+		
+		data = new YamlConfiguration();
+		
+		try {
+			data.load( dataFile );
+		} catch (Exception ex) {
+			throw new IllegalArgumentException("Unable to load the data file.");
+		}
+		
 	}
+	
+
 }

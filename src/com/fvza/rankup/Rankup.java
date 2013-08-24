@@ -9,10 +9,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.fvza.rankup.bukkit.Commands;
-import com.fvza.rankup.bukkit.ListenerSign;
 import com.fvza.rankup.util.Config;
-import com.fvza.rankup.util.FileManager;
 
 public class Rankup extends JavaPlugin{
 	
@@ -40,7 +37,7 @@ public class Rankup extends JavaPlugin{
 	@Override
     public void onEnable() {
 		
-		FileManager FileManager = new FileManager();
+		Config Config = new Config();
 		
 		PluginDescriptionFile pdfFile = this.getDescription();	
 		
@@ -49,7 +46,7 @@ public class Rankup extends JavaPlugin{
 		setupPermissions();
 		setupEconomy();
 		
-		FileManager.loadFiles(); 
+		Config.loadConfig();
 		
 		getServer().getPluginManager().registerEvents(new ListenerSign(), this);
 		
