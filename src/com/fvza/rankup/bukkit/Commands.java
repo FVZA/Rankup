@@ -32,7 +32,7 @@ public class Commands implements CommandExecutor {
 					Ranking.rankup( player );
 					return true; 
 				} else {
-					Language.send( player ,"&cYou do not have permission for this command.");
+					Language.send( player, "&cYou do not have permission to rankup.");
 				}
 				
 			} else if ( args.length == 1 ){

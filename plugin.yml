@@ -1,6 +1,6 @@
 name: Rankup
 author: FVZA
-version: 1.1.4
+version: 1.2
 
 description: Allows players to pay for new ranks.
 website: http://dev.bukkit.org/server-mods/rank-up/
@@ -18,6 +18,7 @@ permissions:
             rankup.rankup: true
             rankup.version: true
             rankup.reload: true
+            rankup.sign: true
     rankup.rankup:
         description: Permission to run the /rankup command. 
         default: true
@@ -27,3 +28,6 @@ permissions:
     rankup.version:
         description: Permission to run the /rankup version command. 
         default: op
+    rankup.sign:
+        description: Permission to create Rankup signs.
+        default: op        

@@ -7,12 +7,10 @@ import org.bukkit.entity.Player;
 
 public class Language {
 	
-	static String player;
 	static String broadcast;
 
 	static String noMoney;
 	static String notRankable;
-	static String noNextGroup;
 	
 	/*
 	 * rankupSuccess,rank
@@ -22,12 +20,10 @@ public class Language {
 	 */
 	
 	public static void load ( YamlConfiguration config ){
-		player = config.getString("rankup-success-player");
 		broadcast = config.getString("rankup-success-broadcast");
 		
 		noMoney = config.getString("rankup-failed-money");
 		notRankable = config.getString("rankup-failed-next-group-not-allowed");
-		noNextGroup = config.getString("rankup-failed-no-group-to-rank-up-to");
 
 	}
 
@@ -38,10 +34,18 @@ public class Language {
 		} else {
 			if( msg.contains("rankupSuccess")){
 				//player.sendMessage( ChatColor.translateAlternateColorCodes("&", msg.replace("%RANK%", msg.concat(",")[1].toString() ) ) ); 
+			} else if ( msg.contains("notRankable")){
+				player.sendMessage( ChatColor.translateAlternateColorCodes('&', notRankable) );
 			}
-				player.sendMessage( ChatColor.translateAlternateColorCodes('&', msg) );
 			return;
 		}
+	}
+	
+	public static void noMoney( Player player, Double amount, String rank ){
+		String msg =  noMoney.replace("%COST%", amount.toString());
+		String msg2 = msg.replace("%RANK%", rank );
+		
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
 	}
 	
 	public static void broadcast (String msg ){

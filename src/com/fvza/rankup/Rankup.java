@@ -8,12 +8,11 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.fvza.rankup.bukkit.Commands;
-import com.fvza.rankup.util.Config;
+import com.fvza.rankup.bukkit.ListenerSign;
 import com.fvza.rankup.util.FileManager;
 
 public class Rankup extends JavaPlugin{
@@ -51,7 +50,7 @@ public class Rankup extends JavaPlugin{
 		
 		getCommand("rankup").setExecutor(new Commands());
 		
-		//getServer().getPluginManager().registerEvents(new ListenerSign(), this);
+		getServer().getPluginManager().registerEvents(new ListenerSign(), this);
 		
 		plugin = this; 
 		
@@ -68,17 +67,6 @@ public class Rankup extends JavaPlugin{
 		}
 		 
 		getLogger().info( pdfFile.getName() + " " + pdfFile.getVersion() + " is now enabled." );
-	}
-	
-	public static boolean getGroupManager(){
-		final PluginManager pluginManager = plugin.getServer().getPluginManager();
-		final Plugin GMplugin = pluginManager.getPlugin("GroupManager");
-		
-		if (GMplugin != null && GMplugin.isEnabled()){
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 	@Override

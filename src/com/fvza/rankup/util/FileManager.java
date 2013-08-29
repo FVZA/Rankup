@@ -10,22 +10,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 public class FileManager {
-   // private static File configFile;
-   // private static File dataFile;
 	private File configFile; 
-	private File dataFile; 
 	private File langFile; 
 	
 	private YamlConfiguration config;
-	private YamlConfiguration data;
 	private YamlConfiguration lang; 
     
 	public void loadFiles(){
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Rankup");
 				
 		configFile = new File( plugin.getDataFolder(), "config.yml" );
-		dataFile = new File( plugin.getDataFolder(), "data.yml" );
-		//langFile = new File( plugin.getDataFolder(), "language.yml" );
+		langFile = new File( plugin.getDataFolder(), "language.yml" );
 		
 		if(!configFile.exists()){
 			try {
@@ -36,15 +31,6 @@ public class FileManager {
 			}
 		}
 		
-		/*if (!dataFile.exists()){
-			try {
-				InputStream jarURL = Config.class.getResourceAsStream("/data.yml");
-				copyFile(jarURL, dataFile);
-				System.out.println("[Rankup] No data file found, generating...");
-			} catch (Exception ex) {
-				throw new IllegalArgumentException("Unable to create the data file.");
-			}
-		}
 		
 		if(!langFile.exists()){
 			try {
@@ -54,26 +40,24 @@ public class FileManager {
 			} catch (Exception ex) {
 				throw new IllegalArgumentException("Unable to create the language file.");
 			}
-		}*/
+		}
 		
 		config = new YamlConfiguration();
-		data = new YamlConfiguration();
 		lang = new YamlConfiguration();
 		
 		try {
 			config.load(configFile);
-			//data.load(dataFile); 
-			//lang.load(langFile);
+			lang.load(langFile);
 		} catch (Exception ex) {
 			throw new IllegalArgumentException("Unable to load a configuration file. Make sure you did not use the tab key in your config.");
 		}
 		
 		Config Config = new Config(); 
 		Config.loadConfig( config ); 
-		//Language.load( lang );
+		Language.load( lang );
 	}
-
-/*	private void copyFile(InputStream in, File file) {
+	
+	private void copyFile(InputStream in, File file) {
         try {
             OutputStream out = new FileOutputStream(file);
             byte[] buf = new byte[1024];
@@ -86,5 +70,5 @@ public class FileManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+	}
 }

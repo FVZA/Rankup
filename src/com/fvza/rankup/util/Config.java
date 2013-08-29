@@ -73,12 +73,12 @@ public class Config {
 		ArrayList<String> currentGroups = getCurrentGroups( player );
 		
 		if( availableGroups.size() == 0 || availableGroups == null ){
-			Language.send( player, "&cThere are no available groups to rank up to." );
+			Language.send( player, "notRankable" );
 			return null;
 		}
 		
 		if( currentGroups.size() == 0 || currentGroups == null ){
-			Language.send( player, "&cYou are not in a group that can rank up." );
+			Language.send( player, "notRankable" );
 			return null; 
 		}
 		
@@ -88,7 +88,7 @@ public class Config {
 		for( String s : currentGroups ){
 			int index = availableGroups.indexOf(s)+1;
 			if( count == availableGroups.size()-1 || !availableGroups.contains(s) || index == availableGroups.size()){
-				Language.send( player, "&cYou are not in a group that can rank up." );
+				Language.send( player, "notRankable" );
 				return null; 
 			} else if ( availableGroups.get(index) != null){
 				if( !currentGroups.contains(availableGroups.get(index)) ) {

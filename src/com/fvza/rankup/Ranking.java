@@ -9,7 +9,7 @@ import com.fvza.rankup.util.Language;
 
 public class Ranking {
 	
-	public boolean pay(Player player, Double amount){
+	public static boolean pay(Player player, Double amount){
 		
 		String newRank = Config.getRankToGroup( player );
 		
@@ -25,12 +25,12 @@ public class Ranking {
 		if(r.transactionSuccess()){
 			return true; 
 		} else {
-			Language.send( player, "&cYou need &a" + amount + " &cto rank up to &b" + newRank + "."); 
+			Language.noMoney( player, amount, newRank );
 			return false; 
 		}
 	}
 	
-	public boolean rankup(Player player){
+	public static boolean rankup(Player player){
 		
 		if( Rankup.perms.getGroups().length == 0 || !Rankup.perms.hasSuperPermsCompat() ){
 			
@@ -39,13 +39,17 @@ public class Ranking {
 			
 		}
 		
+		if( !player.hasPermission("rankup.rankup")){
+			Language.send( player, "&cYou do not have permission to rankup.");
+		}
+		
 		if( Config.getRankToGroup( player ) != null ){
 			
 			String newRank = Config.getRankToGroup( player );
 			Double rankPrice = Config.getGroupPrice( newRank );
 			
 			if( rankPrice < 0 ){
-				Language.send( player, "&cYou are not allowed to rank up to " + newRank + ".");
+				Language.send( player, "notRankable");
 				return false; 
 			}
 			
