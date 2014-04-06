@@ -1,6 +1,6 @@
 name: Rankup
 author: FVZA, CyberTiger
-version: 2.0
+version: ${version}
 
 description: Allows players to pay for new ranks.
 website: http://dev.bukkit.org/server-mods/rank-up/
