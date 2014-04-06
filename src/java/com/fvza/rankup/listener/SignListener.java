@@ -16,14 +16,6 @@ import com.fvza.rankup.Rankup;
 
 public class SignListener implements Listener {
 
-    // This does not belong here.
-    public static final String RANKUP_SIGN_0 = "\u00a71[Rankup]";
-    public static final String RANKUP_SIGN_1 = "Right click me";
-    public static final String RANKUP_SIGN_2 = "to rank up!";
-    public static final String RANKUP_SIGN_3 = "";
-
-    public static final String CREATE_RANKUP_SIGN = "[Rankup]";
-
     private final Rankup plugin;
 
     public SignListener(Rankup plugin) {
@@ -39,7 +31,7 @@ public class SignListener implements Listener {
         if( block.getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN ){
             Sign s = (Sign)block.getState();
             
-            if(s.getLine(0).equalsIgnoreCase(RANKUP_SIGN_0)){
+            if(s.getLine(0).equals(plugin.translate("sign.text.line1"))){
                 if( !player.hasPermission(Rankup.PERMISSION_SIGN) ){
                     player.sendMessage(plugin.translate("sign.break.fail"));
                     event.setCancelled( true );
@@ -56,12 +48,12 @@ public class SignListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent e) {
         Player p = e.getPlayer();
-        if (e.getLine(0).equalsIgnoreCase(CREATE_RANKUP_SIGN)) {
+        if (e.getLine(0).equalsIgnoreCase(plugin.translate("sign.create.line1"))) {
             if (p.hasPermission(Rankup.PERMISSION_SIGN)) {
-                e.setLine(0, RANKUP_SIGN_0);
-                e.setLine(1, RANKUP_SIGN_1);
-                e.setLine(2, RANKUP_SIGN_2);
-                e.setLine(3, RANKUP_SIGN_3);
+                e.setLine(0, plugin.translate("sign.text.line1"));
+                e.setLine(1, plugin.translate("sign.text.line2"));
+                e.setLine(2, plugin.translate("sign.text.line3"));
+                e.setLine(3, plugin.translate("sign.text.line4"));
                 p.sendMessage(plugin.translate("sign.create.success"));
                 e.setCancelled(true);
             } else {
@@ -82,7 +74,7 @@ public class SignListener implements Listener {
                 Sign s = (Sign)b.getState();
                 Player p = event.getPlayer();
                 
-                if (s.getLine(0).equals(RANKUP_SIGN_0)) {
+                if (s.getLine(0).equals(plugin.translate("sign.text.line1"))) {
                     plugin.rankup( p );
                 }
             }

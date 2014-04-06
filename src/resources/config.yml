@@ -22,10 +22,18 @@ ranks:
 #            - shop@world_end
 language:
     sign:
+        text:
+# Note: line1 should contain color codes to prevent players from being
+# able to make rankup signs without the required permissions.
+            line1: '&1[Rankup]'
+            line2: 'Right click me'
+            line3: 'to rank up!'
+            line4: ''
         break:
             success: '&7You have successfully removed this rankup sign.'
             fail: '&cYou do not have permission to break this sign.'
         create:
+            line1: '[Rankup]'
             success: '&7Successfully created a rankup sign.'
             fail: '&cYou do not have permission to create a rankup sign.'
     rankup:
