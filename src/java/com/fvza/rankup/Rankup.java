@@ -179,7 +179,7 @@ public class Rankup extends JavaPlugin {
 
         p.sendMessage(translate("rankup.success", current.getName(), next.getName(), price));
 
-        getServer().broadcastMessage(translate("rankup.success-broadcast", p.getDisplayName(), current.getName(), next.getName(), price));
+        getServer().broadcastMessage(translate("rankup.success-broadcast", p.getName(), p.getDisplayName(), current.getName(), next.getName(), price));
             
         return true;
     }

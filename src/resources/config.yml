@@ -30,7 +30,8 @@ language:
             fail: '&cYou do not have permission to create a rankup sign.'
     rankup:
         success: '&7You pay $%3$,.2f to rank up from %1$s to %2$s.'
-        success-broadcast: '&7%1s has ranked up from %2$s to %3$s.'
+# $1 - name, $2 - display name, $3 - old rank, $4 - new rank.
+        success-broadcast: '&7%1s has ranked up from %3$s to %4$s.'
         no-current-rank: '&cYou do not currently have a prison rank.'
         no-next-rank: '&cThere are no more prison ranks after %s.'
         no-money: '&cYou do not have the $%3$,.2f required to rank up from %1$s to %2$s.'
