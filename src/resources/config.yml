@@ -1,0 +1,43 @@
+# Remember, YAML does not understand the 'tab' key. You must use spaces instead. 
+# Note that this plugin REQUIRES you have Vault. Download it here: http://dev.bukkit.org/server-mods/vault/
+ranks:
+# Example ranks. Group names are formatted as group or group@world for
+# world specific group assignments. Multiple groups are supported.
+#
+# A player is considered to belong to the LAST rank that they are
+# members of all the listed groups for.
+#
+#    c-block:
+#        price: 0
+#        groups:
+#            - a-block
+#    b-block:
+#        price: 10000
+#        groups:
+#            - b-block
+#    c-block:
+#        price: 20000
+#        groups:
+#            - c-block
+#            - shop@world_end
+language:
+    sign:
+        break:
+            success: '&7You have successfully removed this rankup sign.'
+            fail: '&cYou do not have permission to break this sign.'
+        create:
+            success: '&7Successfully created a rankup sign.'
+            fail: '&cYou do not have permission to create a rankup sign.'
+    rankup:
+        success: '&7You pay $%3$,.2f to rank up from %1$s to %2$s.'
+        success-broadcast: '&7%1s has ranked up from %2$s to %3$s.'
+        no-current-rank: '&cYou do not currently have a prison rank.'
+        no-next-rank: '&cThere are no more prison ranks after %s.'
+        no-money: '&cYou do not have the $%3$,.2f required to rank up from %1$s to %2$s.'
+        no-permission: '&cYou are not allowed to rank up.'
+    version:
+        success: '&3&oRankup (%1$s)&7&o by FVZA and CyberTiger is running.'
+        no-permission: '&cYou do not have permission for this command.'
+    reload:
+        success: '&7Rankup has been reloaded.'
+        no-permission: '&cYou do not have permission for this command.'
