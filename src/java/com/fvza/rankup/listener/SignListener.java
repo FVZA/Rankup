@@ -56,15 +56,17 @@ public class SignListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent e) {
         Player p = e.getPlayer();
-        if (e.getLine(0).equalsIgnoreCase(CREATE_RANKUP_SIGN) && p.hasPermission(Rankup.PERMISSION_SIGN)) {
-            e.setLine(0, RANKUP_SIGN_0);
-            e.setLine(1, RANKUP_SIGN_1);
-            e.setLine(2, RANKUP_SIGN_2);
-            e.setLine(3, RANKUP_SIGN_3);
-            p.sendMessage(plugin.translate("sign.create.success"));
-            e.setCancelled(true);
-        } else {
-            p.sendMessage(plugin.translate("sign.create.fail"));
+        if (e.getLine(0).equalsIgnoreCase(CREATE_RANKUP_SIGN)) {
+            if (p.hasPermission(Rankup.PERMISSION_SIGN)) {
+                e.setLine(0, RANKUP_SIGN_0);
+                e.setLine(1, RANKUP_SIGN_1);
+                e.setLine(2, RANKUP_SIGN_2);
+                e.setLine(3, RANKUP_SIGN_3);
+                p.sendMessage(plugin.translate("sign.create.success"));
+                e.setCancelled(true);
+            } else {
+                p.sendMessage(plugin.translate("sign.create.fail"));
+            }
         }
     }
     

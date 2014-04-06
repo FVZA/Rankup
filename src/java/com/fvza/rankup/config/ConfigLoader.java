@@ -1,6 +1,5 @@
 package com.fvza.rankup.config;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

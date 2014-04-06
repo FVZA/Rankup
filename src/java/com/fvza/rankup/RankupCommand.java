@@ -1,6 +1,5 @@
 package com.fvza.rankup;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +27,6 @@ public class RankupCommand implements CommandExecutor {
                 if( args[0].equalsIgnoreCase("v") || args[0].equalsIgnoreCase("version") ){
                     if( player.hasPermission(Rankup.PERMISSION_VERSION)){
                         player.sendMessage(plugin.translate("version.success", plugin.getDescription().getVersion()));
-                        // Language.send( player , " &3&oRankup (" + Bukkit.getServer().getPluginManager().getPlugin("Rankup").getDescription().getVersion() + ")&7&o by FVZA is running.");
                     } else {
                         player.sendMessage(plugin.translate("version.no-permission"));
                     }
@@ -36,10 +34,8 @@ public class RankupCommand implements CommandExecutor {
                     if( player.hasPermission("rankup.reload" )){
                         plugin.reload();
                         player.sendMessage(plugin.translate("reload.success"));
-                        // Language.send( player ,"&7Rankup has been reloaded.");
                     } else {
                         player.sendMessage(plugin.translate("reload.no-permission"));
-                        // Language.send( player ,"&cYou do not have permission for this command.");
                     }
                 }
             }
