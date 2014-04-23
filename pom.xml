@@ -61,4 +61,16 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>cyberiantiger.repo</id>
+      <name>CyberianTiger Maven Repository</name>
+      <url>dav:http://cyberiantiger.org/maven</url>
+    </repository>
+    <snapshotRepository>
+      <id>cyberiantiger.repo</id>
+      <name>CyberianTiger Maven Repository</name>
+      <url>dav:http://cyberiantiger.org/maven</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
