@@ -1,4 +1,4 @@
-package com.fvza.rankup.listener;
+package org.cyberiantiger.minecraft.rankup;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,14 +11,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.fvza.rankup.Rankup;
+import org.cyberiantiger.minecraft.rankup.Main;
 
 
 public class SignListener implements Listener {
 
-    private final Rankup plugin;
+    private final Main plugin;
 
-    public SignListener(Rankup plugin) {
+    public SignListener(Main plugin) {
         this.plugin = plugin;
     }
     
@@ -32,7 +32,7 @@ public class SignListener implements Listener {
             Sign s = (Sign)block.getState();
             
             if(s.getLine(0).equals(plugin.translate("sign.text.line1"))){
-                if( !player.hasPermission(Rankup.PERMISSION_SIGN) ){
+                if( !player.hasPermission(Main.PERMISSION_SIGN) ){
                     player.sendMessage(plugin.translate("sign.break.fail"));
                     event.setCancelled( true );
                 } else {
@@ -49,7 +49,7 @@ public class SignListener implements Listener {
     public void onSignChange(SignChangeEvent e) {
         Player p = e.getPlayer();
         if (e.getLine(0).equalsIgnoreCase(plugin.translate("sign.create.line1"))) {
-            if (p.hasPermission(Rankup.PERMISSION_SIGN)) {
+            if (p.hasPermission(Main.PERMISSION_SIGN)) {
                 e.setLine(0, plugin.translate("sign.text.line1"));
                 e.setLine(1, plugin.translate("sign.text.line2"));
                 e.setLine(2, plugin.translate("sign.text.line3"));

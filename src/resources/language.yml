@@ -1,0 +1,35 @@
+language:
+    sign:
+        text:
+# Note: line1 should contain color codes to prevent players from being
+# able to make rankup signs without the required permissions.
+            line1: '&1[Rankup]'
+            line2: 'Right click me'
+            line3: 'to rank up!'
+            line4: ''
+        break:
+            success: '&7You have successfully removed this rankup sign.'
+            fail: '&cYou do not have permission to break this sign.'
+        create:
+            line1: '[Rankup]'
+            success: '&7Successfully created a rankup sign.'
+            fail: '&cYou do not have permission to create a rankup sign.'
+    rankup:
+        success: '&7You pay $%3$,.2f to rank up from %1$s to %2$s.'
+# $1 - name, $2 - display name, $3 - old rank, $4 - new rank.
+        success-broadcast: '&7%1s has ranked up from %3$s to %4$s.'
+        no-current-rank: '&cYou do not currently have a prison rank.'
+        no-next-rank: '&cThere are no more prison ranks after %s.'
+        no-money: '&cYou do not have the $%3$,.2f required to rank up from %1$s to %2$s.'
+        no-permission: '&cYou are not allowed to rank up.'
+    version:
+        success: '&3&oRankup (%1$s)&7&o by FVZA and CyberTiger is running.'
+        no-permission: '&cYou do not have permission for this command.'
+    reload:
+        ranks:
+            success: '&7Rankup has been reloaded.'
+            fail: '&cFailed to reload ranks, check console.'
+        translation:
+            success: '&7Rankup has been reloaded.'
+            fail: '&cFailed to reload translations, check console.'
+        no-permission: '&cYou do not have permission for this command.'

@@ -1,8 +1,5 @@
-package com.fvza.rankup;
+package org.cyberiantiger.minecraft.rankup;
 
-import com.fvza.rankup.config.ConfigLoader;
-import com.fvza.rankup.config.GroupAssignment;
-import com.fvza.rankup.config.Rank;
 import java.io.IOException;
 
 import net.milkbowl.vault.economy.Economy;
@@ -12,16 +9,14 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.fvza.rankup.listener.SignListener;
 import java.util.Arrays;
 import java.util.IllegalFormatException;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.entity.Player;
 
-public class Rankup extends JavaPlugin {
+public class Main extends JavaPlugin {
 
     public static final String PERMISSION_SIGN = "rankup.sign";
     public static final String PERMISSION_RANKUP = "rankup.rankup";
@@ -30,7 +25,7 @@ public class Rankup extends JavaPlugin {
 
     private Permission perms;
     private Economy econ;
-    private List<Rank> ranks;
+    private Ranks ranks;
     private Map<String, String> translations;
     
     private void setupPermissions() {
@@ -54,28 +49,29 @@ public class Rankup extends JavaPlugin {
             throw new IllegalStateException("No vault compatable economy plugins found.");
         }
     }
-    
+
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            throw new IllegalStateException("Missing dependency: Vault");
+            getLogger().severe("Disabling plugin, Vault not found");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         getCommand("rankup").setExecutor(new RankupCommand(this));
         
         getServer().getPluginManager().registerEvents(new SignListener(this), this);
         
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-        } catch (IOException e) {
-            getLogger().info( "Unable to send Metrics data." );
+        if (!reloadRanks()) {
+            getLogger().log(Level.SEVERE, "Disabling plugin, invalid configuration.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
-
-        saveDefaultConfig();
-
-        load();
-
+        if (!reloadTranslations()) {
+            getLogger().log(Level.SEVERE, "Disabling plugin, invalid configuration.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         // Delay economy and permissions init until after all
         // plugins are loaded.
         getServer().getScheduler().runTask(this, new Runnable() {
@@ -85,13 +81,14 @@ public class Rankup extends JavaPlugin {
                     setupPermissions();
                 } catch (IllegalStateException e) {
                     getLogger().severe(e.getMessage());
-                    getPluginLoader().disablePlugin(Rankup.this);
+                    getPluginLoader().disablePlugin(Main.this);
+                    return;
                 }
                 try {
                     setupEconomy();
                 } catch (IllegalStateException e) {
                     getLogger().severe(e.getMessage());
-                    getPluginLoader().disablePlugin(Rankup.this);
+                    getPluginLoader().disablePlugin(Main.this);
                 }
             }
         });
@@ -118,44 +115,17 @@ public class Rankup extends JavaPlugin {
         return result;
     }
 
-    private Rank getNextRank(Rank current) {
-        int i = ranks.indexOf(current);
-        if (i == -1) 
-            return null;
-        i++;
-        if (i >= ranks.size())
-            return null;
-        return ranks.get(i);
-    }
-
-    private Rank getCurrentRank(Player p) {
-        for (int i = ranks.size() - 1; i>= 0; i--) {
-            Rank testRank = ranks.get(i);
-            boolean member = true;
-            for (GroupAssignment group : testRank.getGroups()) {
-                if (!perms.playerInGroup(group.getWorld(), p.getName(), group.getGroup())) {
-                    member = false;
-                    break;
-                }
-            }
-            if (member) {
-                return testRank;
-            }
-        }
-        return null;
-    }
-
     public boolean rankup(Player p) {
         if (!p.hasPermission(PERMISSION_RANKUP)) {
             p.sendMessage(translate("rankup.no-permission"));
             return false;
         }
-        Rank current = getCurrentRank(p);
+        Rank current = ranks.getCurrentRank(perms, p);
         if (current == null) {
             p.sendMessage(translate("rankup.no-current-rank"));
             return false;
         }
-        Rank next = getNextRank(current);
+        Rank next = ranks.getNextRank(current);
         if (next == null) {
             p.sendMessage(translate("rankup.no-next-rank", current.getName()));
             return false;
@@ -184,13 +154,29 @@ public class Rankup extends JavaPlugin {
         return true;
     }
 
-    public void load() {
-        ranks = ConfigLoader.loadRanks(getConfig());
-        translations = ConfigLoader.loadTranslations(getConfig());
+    public boolean reloadRanks() {
+        try {
+            Ranks ranks = ConfigLoader.loadRanks(this);
+            ranks.init();
+            this.ranks = ranks;
+            getLogger().info("Loaded ranks: " + ranks.toString());
+            return true;
+        } catch (IOException ex) {
+            getLogger().log(Level.WARNING, "Error reading ranks configuration.", ex);
+            return false;
+        } catch (IllegalStateException ex) {
+            getLogger().log(Level.WARNING, "Error reloading ranks configuration.", ex);
+            return false;
+        }
     }
 
-    public void reload() {
-        reloadConfig();
-        load();
+    public boolean reloadTranslations() {
+        try {
+            translations = ConfigLoader.loadTranslations(this);
+            return true;
+        } catch (IOException ex) {
+            getLogger().log(Level.WARNING, "Error reading translation configuration.", ex);
+            return false;
+        }
     }
 }
