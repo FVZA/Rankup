@@ -1,10 +1,11 @@
 name: Rankup
-author: FVZA, CyberTiger
-version: ${version}
+author: FVZA
+version: 1.2
 
 description: Allows players to pay for new ranks.
+website: http://dev.bukkit.org/server-mods/rank-up/
 
-main: org.cyberiantiger.minecraft.rankup.Main
+main: com.fvza.rankup.Rankup
 depend: [Vault]
 
 commands:
